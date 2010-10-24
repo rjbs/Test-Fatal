@@ -51,11 +51,12 @@ our @EXPORT_OK = qw(exception success);
 C<exception> takes a bare block of code and returns the exception thrown by
 that block.  If no exception was thrown, it returns undef.
 
-B<ACHTUNG!>  If the block throws a I<false> exception, such as 0 or the empty
-string, Test::Fatal itself will die.  Since throwing either of these is an
-B<incredibly bad idea>, this behavior is considered a I<feature>.  If you must
-test for these conditions, you should use L<Try::Tiny>'s try/catch mechanism.
-(Try::Tiny is the underlying exception handling system of Test::Fatal.)
+B<ACHTUNG!>  If the block results in a I<false> exception, such as 0 or the
+empty string, Test::Fatal itself will die.  Since either of these cases
+indicates a serious problem with the system under testing, this behavior is
+considered a I<feature>.  If you must test for these conditions, you should use
+L<Try::Tiny>'s try/catch mechanism.  (Try::Tiny is the underlying exception
+handling system of Test::Fatal.)
 
 Note that there is no TAP assert being performed.  In other words, no "ok" or
 "not ok" line is emitted.  It's up to you to use the rest of C<exception> in an
@@ -78,7 +79,7 @@ sub exception (&) {
   } catch {
     return $_ if $_;
 
-    my $problem = defined ? 'false' : 'undef';
+    my $problem = defined $_ ? 'false' : 'undef';
     Carp::confess("$problem exception caught by Test::Fatal::exception");
   };
 }
