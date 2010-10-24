@@ -1,6 +1,7 @@
 Revision history for {{$dist->name}}
 
 {{$NEXT}}
+          add tests for handling of false exceptions
 
 0.001     2010-10-24 00:23:24 America/New_York
           first release

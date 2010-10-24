@@ -1,6 +1,6 @@
 use strict;
 use warnings;
-use Test::More tests => 4;
+use Test::More tests => 5;
 use Test::Fatal qw(exception success);
 use Try::Tiny 0.07;
 
@@ -14,9 +14,6 @@ ok(
   ! exception { 1 },
   "no fatality means no exception",
 );
-
-# TODO: test for fatality of undef exception
-# TODO: test for fatality of false exception
 
 try {
   die "die";
@@ -33,3 +30,19 @@ try {
 } success {
   pass("a success block runs, passing");
 };
+
+# TODO: test for fatality of undef exception?
+
+{
+  package BreakException;
+  sub DESTROY { eval { my $x = 'o no'; } }
+}
+
+like(
+  exception { exception {
+    my $blackguard = bless {}, 'BreakException';
+    die "real exception";
+  } },
+  qr{false exception},
+  "we throw a new exception if the exception is false",
+);
