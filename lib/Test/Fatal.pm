@@ -11,7 +11,7 @@ package Test::Fatal;
   use System::Under::Test qw(might_die);
 
   ok(
-    not exception { might_die; },
+    ! exception { might_die; },
     "the code lived",
   );
 
