@@ -10,13 +10,15 @@ package Test::Fatal;
 
   use System::Under::Test qw(might_die);
 
-  ok(
-    ! exception { might_die; },
+  is(
+    exception { might_die; },
+    undef
     "the code lived",
   );
 
-  ok(
+  isnt(
     exception { might_die; },
+    undef,
     "the code died",
   );
 
