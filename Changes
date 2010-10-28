@@ -1,6 +1,8 @@
 Revision history for {{$dist->name}}
 
 {{$NEXT}}
+
+0.002     2010-10-28 00:11:09 America/New_York
           add tests for handling of false exceptions
           fix precedence error in documentation (thanks, ether)
 
