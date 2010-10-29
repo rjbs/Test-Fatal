@@ -1,6 +1,8 @@
 Revision history for {{$dist->name}}
 
 {{$NEXT}}
+
+0.003     2010-10-28 22:10:59 America/New_York
           more tests for false exceptions, especially on 5.13
 
 0.002     2010-10-28 00:11:09 America/New_York
