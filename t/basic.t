@@ -1,6 +1,6 @@
 use strict;
 use warnings;
-use Test::More tests => 5;
+use Test::More tests => 5 + ($] >= 5.013001 ? 0 : 1);
 use Test::Fatal qw(exception success);
 use Try::Tiny 0.07;
 
@@ -38,11 +38,24 @@ try {
   sub DESTROY { eval { my $x = 'o no'; } }
 }
 
+if ($] <= 5.013001) {
+  like(
+    exception { exception {
+      my $blackguard = bless {}, 'BreakException';
+      die "real exception";
+    } },
+    qr{false exception},
+    "we throw a new exception if the exception is false",
+  );
+}
+
+{
+  package FalseObject;
+  use overload 'bool' => sub { return };
+}
+
 like(
-  exception { exception {
-    my $blackguard = bless {}, 'BreakException';
-    die "real exception";
-  } },
+  exception { exception { die(bless {} => 'FalseObject'); } },
   qr{false exception},
   "we throw a new exception if the exception is false",
 );

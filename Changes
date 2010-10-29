@@ -1,6 +1,7 @@
 Revision history for {{$dist->name}}
 
 {{$NEXT}}
+          more tests for false exceptions, especially on 5.13
 
 0.002     2010-10-28 00:11:09 America/New_York
           add tests for handling of false exceptions
