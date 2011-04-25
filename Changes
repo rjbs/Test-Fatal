@@ -2,6 +2,10 @@ Revision history for {{$dist->name}}
 
 {{$NEXT}}
 
+0.004     2011-04-25 11:57:59 America/New_York
+          success blocks now allow trailing blocks like finally, catch, etc.
+            (thanks, Joel Bernstein)
+
 0.003     2010-10-28 22:10:59 America/New_York
           more tests for false exceptions, especially on 5.13
 
