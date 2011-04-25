@@ -72,18 +72,18 @@ C<Sub::Uplevel> mechanism.
 
 =cut
 
-sub exception (&) {
-  my ($code) = @_;
+sub exception (&;@) {
+  my $code = shift;
 
   return try {
     $code->();
     return undef;
-  } catch {
+  } catch( sub {
     return $_ if $_;
 
     my $problem = defined $_ ? 'false' : 'undef';
     Carp::confess("$problem exception caught by Test::Fatal::exception");
-  };
+  }, @_);
 }
 
 =func success
@@ -105,12 +105,12 @@ success blocks may sometimes help organize complex testing.
 
 =cut
 
-sub success (&) {
-  my ($code) = @_;
-  return finally {
+sub success (&;@) {
+  my $code = shift;
+  return finally( sub {
     return if @_; # <-- only run on success
     $code->();
-  }
+  }, @_ );
 }
 
 1;

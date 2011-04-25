@@ -1,6 +1,6 @@
 use strict;
 use warnings;
-use Test::More tests => 5 + ($] >= 5.013001 ? 0 : 1);
+use Test::More tests => 7 + ($] >= 5.013001 ? 0 : 1);
 use Test::Fatal qw(exception success);
 use Try::Tiny 0.07;
 
@@ -29,6 +29,22 @@ try {
   fail("we did not demand to die");
 } success {
   pass("a success block runs, passing");
+};
+
+{
+    my $i = 0;
+    try {
+        die { foo => 42 };
+    } catch {
+        1;
+    } success {
+        fail("never get here");
+    } finally {
+        $i++;
+        pass("finally block after success block");
+    };
+
+    is($i, 1, "finally block after success block still runs");
 };
 
 # TODO: test for fatality of undef exception?
