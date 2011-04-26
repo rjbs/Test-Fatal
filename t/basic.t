@@ -1,6 +1,6 @@
 use strict;
 use warnings;
-use Test::More tests => 7 + ($] >= 5.013001 ? 0 : 1);
+use Test::More tests => 7 + ($] < 5.013001 ? 1 : 0);
 use Test::Fatal qw(exception success);
 use Try::Tiny 0.07;
 
@@ -54,7 +54,7 @@ try {
   sub DESTROY { eval { my $x = 'o no'; } }
 }
 
-if ($] <= 5.013001) {
+if ($] < 5.013001) {
   like(
     exception { exception {
       my $blackguard = bless {}, 'BreakException';
