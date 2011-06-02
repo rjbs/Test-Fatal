@@ -12,7 +12,7 @@ package Test::Fatal;
 
   is(
     exception { might_die; },
-    undef
+    undef,
     "the code lived",
   );
 
@@ -69,6 +69,17 @@ that if the exception returned has a stack trace, it will include some frames
 between the code calling C<exception> and the thing throwing the exception.
 This is considered a I<feature> because it avoids the occasionally twitchy
 C<Sub::Uplevel> mechanism.
+
+B<Achtung!>  This is not a great idea:
+
+  like( exception { ... }, qr/foo/, "foo appears in the exception" );
+
+If the code in the C<...> is going to throw a stack trace with the arguments to
+each subroutine in its call stack, the test name, "foo appears in the
+exception" will itself be matched by the regex.  Instead, write this:
+
+  my $exception = exception { ... };
+  like( $exception, qr/foo/, "foo appears in the exception" );
 
 =cut
 
