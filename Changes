@@ -1,6 +1,8 @@
 Revision history for {{$dist->name}}
 
 {{$NEXT}}
+
+0.006     2011-06-01 22:55:10 America/New_York
           crank back the Test::More and Exporter requirements
 
           add lives_ok and dies_ok emulation (thanks, Paul "LeoNerd" Evans)
