@@ -41,7 +41,7 @@ It exports one routine by default: C<exception>.
 use Carp ();
 use Try::Tiny 0.07;
 
-use Exporter 5.59 'import';
+use Exporter 5.57 'import';
 
 our @EXPORT    = qw(exception);
 our @EXPORT_OK = qw(exception success);
