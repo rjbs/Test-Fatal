@@ -44,7 +44,7 @@ use Try::Tiny 0.07;
 use Exporter 5.57 'import';
 
 our @EXPORT    = qw(exception);
-our @EXPORT_OK = qw(exception success);
+our @EXPORT_OK = qw(exception success dies_ok lives_ok);
 
 =func exception
 
@@ -62,7 +62,8 @@ handling system of Test::Fatal.)
 
 Note that there is no TAP assert being performed.  In other words, no "ok" or
 "not ok" line is emitted.  It's up to you to use the rest of C<exception> in an
-existing test like C<ok>, C<isa_ok>, C<is>, et cetera.
+existing test like C<ok>, C<isa_ok>, C<is>, et cetera.  Or you may wish to use
+the C<dies_ok> and C<lives_ok> wrappers, which do provide TAP output.
 
 C<exception> does I<not> alter the stack presented to the called block, meaning
 that if the exception returned has a stack trace, it will include some frames
@@ -122,6 +123,54 @@ sub success (&;@) {
     return if @_; # <-- only run on success
     $code->();
   }, @_ );
+}
+
+=func dies_ok
+
+=func lives_ok
+
+Exported only by request, these two functions run a given block of code, and
+provide TAP output indicating if it did, or did not throw an exception. 
+These provide an easy upgrade path for replacing existing unit tests based on
+C<Test::Exception>.
+
+RJBS does not using this except as a convenience while porting tests to use
+Test::Fatal's C<exception> routine.
+
+  use Test::More tests => 2;
+  use Test::Fatal qw(dies_ok lives_ok);
+
+  dies_ok { die "I failed" } 'code that fails';
+
+  lives_ok { return "I'm still alive" } 'code that does not fail';
+
+=cut
+
+my $Tester;
+
+# Signature should match that of Test::Exception
+sub dies_ok (&;$) {
+  my $code = shift;
+  my $name = shift;
+
+  require Test::Builder;
+  $Tester ||= Test::Builder->new;
+
+  my $ok = $Tester->ok( exception( \&$code ), $name );
+  $ok or $Tester->diag( "expected an exception but none was raised" );
+  return $ok;
+}
+
+sub lives_ok (&;$) {
+  my $code = shift;
+  my $name = shift;
+
+  require Test::Builder;
+  $Tester ||= Test::Builder->new;
+
+  my $ok = $Tester->ok( !exception( \&$code ), $name );
+  $ok or $Tester->diag( "expected return but an exception was raised" );
+  return $ok;
 }
 
 1;
