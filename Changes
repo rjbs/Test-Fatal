@@ -1,6 +1,9 @@
 Revision history for {{$dist->name}}
 
 {{$NEXT}}
+          crank back the Test::More and Exporter requirements
+
+          add lives_ok and dies_ok emulation (thanks, Paul "LeoNerd" Evans)
 
 0.005     2011-04-26 07:50:48 America/New_York
           fix the logic that picks tests for 5.13.1+ (thanks, Zefram)
