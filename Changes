@@ -1,6 +1,8 @@
 Revision history for {{$dist->name}}
 
 {{$NEXT}}
+          revert the mistake by which 0.004 allowed blocks after "exception" as
+          well as "success"
 
 0.006     2011-06-01 22:55:10 America/New_York
           crank back the Test::More and Exporter requirements

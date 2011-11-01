@@ -84,18 +84,18 @@ exception" will itself be matched by the regex.  Instead, write this:
 
 =cut
 
-sub exception (&;@) {
+sub exception (&) {
   my $code = shift;
 
   return try {
     $code->();
     return undef;
-  } catch( sub {
+  } catch {
     return $_ if $_;
 
     my $problem = defined $_ ? 'false' : 'undef';
     Carp::confess("$problem exception caught by Test::Fatal::exception");
-  }, @_);
+  };
 }
 
 =func success
