@@ -2,6 +2,9 @@ Revision history for {{$dist->name}}
 
 {{$NEXT}}
 
+0.008     2011-11-06 21:10:14 America/New_York
+          no changes since 0.007
+
 0.007     2011-10-31 23:22:47 America/New_York
           revert the mistake by which 0.004 allowed blocks after "exception" as
           well as "success"
