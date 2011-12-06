@@ -134,8 +134,8 @@ provide TAP output indicating if it did, or did not throw an exception.
 These provide an easy upgrade path for replacing existing unit tests based on
 C<Test::Exception>.
 
-RJBS does not using this except as a convenience while porting tests to use
-Test::Fatal's C<exception> routine.
+RJBS does not suggest using this except as a convenience while porting tests to
+use Test::Fatal's C<exception> routine.
 
   use Test::More tests => 2;
   use Test::Fatal qw(dies_ok lives_ok);
