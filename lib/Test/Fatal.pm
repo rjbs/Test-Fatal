@@ -87,9 +87,11 @@ B<Achtung>: One final bad idea:
   isnt( exception { ... }, undef, "my code died!");
 
 It's true that this tests that your code died, but you should really test that
-it died I<for the right reason>.  If you're expecting an inspectable exception
-with an identifier or class, test that.  If you're expecting a string
-exception, consider using C<like>.
+it died I<for the right reason>.  For example, if you make an unrelated mistake
+in the block, like using the wrong dereference, your test will pass even though
+the code to be tested isn't really run at all.  If you're expecting an
+inspectable exception with an identifier or class, test that.  If you're
+expecting a string exception, consider using C<like>.
 
 =cut
 

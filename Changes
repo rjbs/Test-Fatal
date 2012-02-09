@@ -1,6 +1,7 @@
 Revision history for {{$dist->name}}
 
 {{$NEXT}}
+          advise against using isnt(exception{...},undef)
 
 0.008     2011-11-06 21:10:14 America/New_York
           no changes since 0.007
