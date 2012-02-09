@@ -16,10 +16,10 @@ package Test::Fatal;
     "the code lived",
   );
 
-  isnt(
+  like(
     exception { might_die; },
-    undef,
-    "the code died",
+    qr/turns out it died/,
+    "the code died as expected",
   );
 
   isa_ok(
@@ -53,7 +53,7 @@ our @EXPORT_OK = qw(exception success dies_ok lives_ok);
 C<exception> takes a bare block of code and returns the exception thrown by
 that block.  If no exception was thrown, it returns undef.
 
-B<ACHTUNG!>  If the block results in a I<false> exception, such as 0 or the
+B<Achtung!>  If the block results in a I<false> exception, such as 0 or the
 empty string, Test::Fatal itself will die.  Since either of these cases
 indicates a serious problem with the system under testing, this behavior is
 considered a I<feature>.  If you must test for these conditions, you should use
@@ -81,6 +81,15 @@ exception" will itself be matched by the regex.  Instead, write this:
 
   my $exception = exception { ... };
   like( $exception, qr/foo/, "foo appears in the exception" );
+
+B<Achtung>: One final bad idea:
+
+  isnt( exception { ... }, undef, "my code died!");
+
+It's true that this tests that your code died, but you should really test that
+it died I<for the right reason>.  If you're expecting an inspectable exception
+with an identifier or class, test that.  If you're expecting a string
+exception, consider using C<like>.
 
 =cut
 
