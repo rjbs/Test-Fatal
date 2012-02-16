@@ -67,7 +67,7 @@ if ($] < 5.013001) {
 
 {
   package FalseObject;
-  use overload 'bool' => sub { return };
+  use overload 'bool' => sub { 0 };
 }
 
 like(
