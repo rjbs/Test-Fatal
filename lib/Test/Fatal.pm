@@ -95,10 +95,32 @@ expecting a string exception, consider using C<like>.
 
 =cut
 
+our ($REAL_TBL, $REAL_CALCULATED_TBL) = (1, 1);
+
 sub exception (&) {
   my $code = shift;
 
   return try {
+    my $incremented = $Test::Builder::Level - $REAL_CALCULATED_TBL;
+    local $Test::Builder::Level = $REAL_CALCULATED_TBL;
+    if ($incremented) {
+        # each call to exception adds 5 stack frames
+        $Test::Builder::Level += 5;
+        for my $i (1..$incremented) {
+            # -2 because we want to see it from the perspective of the call to
+            # is() within the call to $code->()
+            my $caller = caller($Test::Builder::Level - 2);
+            if ($caller eq __PACKAGE__) {
+                # each call to exception adds 5 stack frames
+                $Test::Builder::Level = $Test::Builder::Level + 5;
+            }
+            else {
+                $Test::Builder::Level = $Test::Builder::Level + 1;
+            }
+        }
+    }
+
+    local $REAL_CALCULATED_TBL = $Test::Builder::Level;
     $code->();
     return undef;
   } catch {
