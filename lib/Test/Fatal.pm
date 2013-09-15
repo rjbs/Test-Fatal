@@ -73,14 +73,19 @@ C<Sub::Uplevel> mechanism.
 
 B<Achtung!>  This is not a great idea:
 
-  like( exception { ... }, qr/foo/, "foo appears in the exception" );
+  sub exception_like(&$;$) {
+      my ($code, $pattern, $name) = @_;
+      like( &exception($code), $pattern, $name );
+  }
+
+  exception_like(sub { }, qr/foo/, 'foo appears in the exception');
 
 If the code in the C<...> is going to throw a stack trace with the arguments to
-each subroutine in its call stack, the test name, "foo appears in the
-exception" will itself be matched by the regex.  Instead, write this:
+each subroutine in its call stack (for example via C<Carp::confess>,
+the test name, "foo appears in the exception" will itself be matched by the
+regex.  Instead, write this:
 
-  my $exception = exception { ... };
-  like( $exception, qr/foo/, "foo appears in the exception" );
+  like( exception { ... }, qr/foo/, 'foo appears in the exception' );
 
 B<Achtung>: One final bad idea:
 
