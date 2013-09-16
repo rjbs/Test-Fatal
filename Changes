@@ -1,6 +1,8 @@
 Revision history for {{$dist->name}}
 
 {{$NEXT}}
+
+0.011     2013-09-17 08:48:20 Asia/Tokyo
         - more clearly (and correctly) document the way NOT to use Test::Fatal
           (thanks, Karen Etheridge!)
 
