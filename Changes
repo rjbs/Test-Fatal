@@ -1,6 +1,8 @@
 Revision history for {{$dist->name}}
 
 {{$NEXT}}
+
+0.012     2013-09-17 22:01:45 Asia/Tokyo
         - go back to auto-detecting the required Test::More, reverting the
           changes made for [rt.cpan.org #62699]
 
