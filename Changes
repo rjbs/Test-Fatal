@@ -1,6 +1,8 @@
 Revision history for {{$dist->name}}
 
 {{$NEXT}}
+        - go back to auto-detecting the required Test::More, reverting the
+          changes made for [rt.cpan.org #62699]
 
 0.011     2013-09-17 08:48:20 Asia/Tokyo
         - more clearly (and correctly) document the way NOT to use Test::Fatal
