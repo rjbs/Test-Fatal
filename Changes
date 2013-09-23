@@ -2,6 +2,9 @@ Revision history for {{$dist->name}}
 
 {{$NEXT}}
 
+0.013     2013-09-23 10:31:15 America/New_York
+        - rebuild to get a newer compile test that may work on 5.6.x
+
 0.012     2013-09-17 22:01:45 Asia/Tokyo
         - go back to auto-detecting the required Test::More, reverting the
           changes made for [rt.cpan.org #62699]
