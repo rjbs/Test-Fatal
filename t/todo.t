@@ -7,12 +7,14 @@ use Test::Builder::Tester tests => 4;
 use Test::More;
 use Test::Fatal;
 
+my $file = __FILE__;
+
 {
     my $line = __LINE__ + 13;
     my $out = <<FAIL;
 not ok 1 - succeeded # TODO unimplemented
 #   Failed (TODO) test 'succeeded'
-#   at t/todo.t line $line.
+#   at $file line $line.
 #          got: '0'
 #     expected: '1'
 ok 2 - no exceptions # TODO unimplemented
@@ -31,7 +33,7 @@ FAIL
     my $out = <<FAIL;
 not ok 1 - succeeded # TODO unimplemented
 #   Failed (TODO) test 'succeeded'
-#   at t/todo.t line $line.
+#   at $file line $line.
 #          got: '0'
 #     expected: '1'
 ok 2 - no exceptions # TODO unimplemented
@@ -60,7 +62,7 @@ FAIL
     my $out = <<FAIL;
 not ok 1 - succeeded # TODO unimplemented
 #   Failed (TODO) test 'succeeded'
-#   at t/todo.t line $line.
+#   at $file line $line.
 #          got: '0'
 #     expected: '1'
 ok 2 - no exceptions # TODO unimplemented
@@ -95,7 +97,7 @@ FAIL
     my $out = <<FAIL;
 not ok 1 - succeeded # TODO unimplemented
 #   Failed (TODO) test 'succeeded'
-#   at t/todo.t line $line.
+#   at $file line $line.
 #          got: '0'
 #     expected: '1'
 ok 2 - no exceptions # TODO unimplemented
