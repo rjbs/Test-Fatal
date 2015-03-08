@@ -36,6 +36,12 @@ with about the same amount of typing.
 
 It exports one routine by default: C<exception>.
 
+NOTE: C<exception> intentionally does not manipulate the call stack.
+User-written test functions that use C<exception> must be careful to avoid
+false positives if exceptions use stack traces that show arguments.  For a more
+magical approach involving globally overriding C<caller>, see
+L<Test::Exception>.
+
 =cut
 
 use Carp ();
@@ -86,6 +92,17 @@ the test name, "foo appears in the exception" will itself be matched by the
 regex.  Instead, write this:
 
   like( exception { ... }, qr/foo/, 'foo appears in the exception' );
+
+If you really want a test function that passes the test name, wrap the
+arguments in an array reference to hide the literal text from a stack trace:
+
+  sub exception_like(&$) {
+      my ($code, $args) = @_;
+      my ($pattern, $name) = @$args;
+      like( &exception($code), $pattern, $name );
+  }
+
+  exception_like(sub { }, [ qr/foo/, 'foo appears in the exception' ] );
 
 B<Achtung>: One final bad idea:
 
