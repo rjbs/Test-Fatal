@@ -218,24 +218,40 @@ my $Tester;
 # Signature should match that of Test::Exception
 sub dies_ok (&;$) {
   my $code = shift;
-  my $name = shift || "code should throw an exception";
+  my $name = shift;
 
   require Test::Builder;
   $Tester ||= Test::Builder->new;
 
-  my $ok = $Tester->ok( exception( \&$code ), $name );
+  my $tap_pos = $Tester->current_test;
+
+  my $exception = exception( \&$code );
+
+  $name ||= $tap_pos != $Tester->current_test
+        ? "...and code should throw an exception"
+        : "code should throw an exception";
+
+  my $ok = $Tester->ok( $exception, $name );
   $ok or $Tester->diag( "expected an exception but none was raised" );
   return $ok;
 }
 
 sub lives_ok (&;$) {
   my $code = shift;
-  my $name = shift || "code should not throw an exception";
+  my $name = shift;
 
   require Test::Builder;
   $Tester ||= Test::Builder->new;
 
-  my $ok = $Tester->ok( !exception( \&$code ), $name );
+  my $tap_pos = $Tester->current_test;
+
+  my $exception = exception( \&$code );
+
+  $name ||= $tap_pos != $Tester->current_test
+        ? "...and code should not throw an exception"
+        : "code should not throw an exception";
+
+  my $ok = $Tester->ok( ! $exception, $name );
   $ok or $Tester->diag( "expected return but an exception was raised" );
   return $ok;
 }
