@@ -189,7 +189,7 @@ my $Tester;
 # Signature should match that of Test::Exception
 sub dies_ok (&;$) {
   my $code = shift;
-  my $name = shift;
+  my $name = shift || "code should throw an exception";
 
   require Test::Builder;
   $Tester ||= Test::Builder->new;
@@ -201,7 +201,7 @@ sub dies_ok (&;$) {
 
 sub lives_ok (&;$) {
   my $code = shift;
-  my $name = shift;
+  my $name = shift || "code should not throw an exception";
 
   require Test::Builder;
   $Tester ||= Test::Builder->new;
