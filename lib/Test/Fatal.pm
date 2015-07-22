@@ -36,7 +36,7 @@ with about the same amount of typing.
 
 It exports one routine by default: C<exception>.
 
-NOTE: C<exception> intentionally does not manipulate the call stack.
+B<Achtung!>  C<exception> intentionally does not manipulate the call stack.
 User-written test functions that use C<exception> must be careful to avoid
 false positives if exceptions use stack traces that show arguments.  For a more
 magical approach involving globally overriding C<caller>, see
@@ -104,6 +104,15 @@ arguments in an array reference to hide the literal text from a stack trace:
 
   exception_like(sub { }, [ qr/foo/, 'foo appears in the exception' ] );
 
+To aid in avoiding the problem where the pattern is seen in the exception
+because of the call stack, C<$Carp::MAxArgNums> is locally set to -1 when the
+code block is called.  If you really don't want that, set it back to whatever
+value you like at the beginning of the code block.  Obviously, this solution
+doens't affect all possible ways that args of subroutines in the call stack
+might taint the test.  The intention here is to prevent some false passes from
+people who didn't read the documentation.  Your punishment for reading it is
+that you must consider whether to do anything about this.
+
 B<Achtung>: One final bad idea:
 
   isnt( exception { ... }, undef, "my code died!");
@@ -143,6 +152,7 @@ sub exception (&) {
     }
 
     local $REAL_CALCULATED_TBL = $Test::Builder::Level;
+    local $Carp::MaxArgNums = -1;
     $code->();
     return undef;
   } catch {
