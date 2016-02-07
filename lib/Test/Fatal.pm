@@ -132,7 +132,9 @@ sub exception (&) {
   my $code = shift;
 
   return try {
-    my $incremented = $Test::Builder::Level - $REAL_CALCULATED_TBL;
+    my $incremented = defined $Test::Builder::Level
+                    ? $Test::Builder::Level - $REAL_CALCULATED_TBL
+                    : 0;
     local $Test::Builder::Level = $REAL_CALCULATED_TBL;
     if ($incremented) {
         # each call to exception adds 5 stack frames
