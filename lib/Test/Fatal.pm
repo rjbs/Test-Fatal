@@ -50,7 +50,7 @@ use Try::Tiny 0.07;
 use Exporter 5.57 'import';
 
 our @EXPORT    = qw(exception);
-our @EXPORT_OK = qw(exception success dies_ok lives_ok);
+our @EXPORT_OK = qw(exception success lives_and dies_ok lives_ok);
 
 =func exception
 
@@ -192,6 +192,50 @@ sub success (&;@) {
   }, @_ );
 }
 
+=func lives_and
+
+  use Test::More tests => 1;
+  use Test::Fatal 'lives_and';
+
+  lives_and { ok $something->is_true } 'returns true when it should';
+
+C<lives_and>, exported only by request, allows you to test things that could
+(but shouldn't) throw an exception without having to have two separate tests
+with two separate results (and two separate descriptions).
+
+It takes a block of code to run, which should contain one TAP assertion, and
+a test description to give the TAP assertion inside the block. If the block
+does throw an exception, a test failure will be logged.
+
+=cut
+
+my $Tester;
+
+sub lives_and (&;$) {
+  my $code = shift;
+  my $name = shift;
+
+  require Test::Builder;
+  $Tester ||= Test::Builder->new;
+
+  my $ok;
+  try {
+    local $Test::Builder::Level = $Test::Builder::Level + 5;
+    my $orig = \&Test::Builder::ok;
+    no warnings 'redefine';
+    local *Test::Builder::ok = sub {
+      $_[2] = $name unless defined $_[2];
+      goto &$orig;
+    };
+    $ok = $code->();
+  } catch {
+    local $Test::Builder::Level = $Test::Builder::Level + 2;
+    $ok = $Tester->ok( 0, $name );
+    $Tester->diag( "$_" );
+  };
+  return $ok;
+}
+
 =func dies_ok
 
 =func lives_ok
@@ -212,8 +256,6 @@ use Test::Fatal's C<exception> routine.
   lives_ok { return "I'm still alive" } 'code that does not fail';
 
 =cut
-
-my $Tester;
 
 # Signature should match that of Test::Exception
 sub dies_ok (&;$) {
