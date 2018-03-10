@@ -2,6 +2,10 @@ Revision history for {{$dist->name}}
 
 {{$NEXT}}
 
+0.015     2018-03-10 17:06:11-05:00 America/New_York (TRIAL RELEASE)
+        - add default descriptions to tests
+        - work on ancient Test::Builder code
+
 0.014     2014-12-09 18:35:59-05:00 America/New_York
         - avoid assuming that t/todo.t is always called t/todo.t
 
