@@ -2,6 +2,9 @@ Revision history for {{$dist->name}}
 
 {{$NEXT}}
 
+0.016     2020-08-08 22:00:14-04:00 America/New_York
+        - no changes since trial release of 0.015
+
 0.015     2018-03-10 17:06:11-05:00 America/New_York (TRIAL RELEASE)
         - add default descriptions to tests
         - work on ancient Test::Builder code
