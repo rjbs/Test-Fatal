@@ -105,7 +105,7 @@ arguments in an array reference to hide the literal text from a stack trace:
   exception_like(sub { }, [ qr/foo/, 'foo appears in the exception' ] );
 
 To aid in avoiding the problem where the pattern is seen in the exception
-because of the call stack, C<$Carp::MAxArgNums> is locally set to -1 when the
+because of the call stack, C<$Carp::MaxArgNums> is locally set to -1 when the
 code block is called.  If you really don't want that, set it back to whatever
 value you like at the beginning of the code block.  Obviously, this solution
 doens't affect all possible ways that args of subroutines in the call stack
@@ -197,7 +197,7 @@ sub success (&;@) {
 =func lives_ok
 
 Exported only by request, these two functions run a given block of code, and
-provide TAP output indicating if it did, or did not throw an exception. 
+provide TAP output indicating if it did, or did not throw an exception.
 These provide an easy upgrade path for replacing existing unit tests based on
 C<Test::Exception>.
 
