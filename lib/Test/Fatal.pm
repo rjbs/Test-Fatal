@@ -65,6 +65,7 @@ indicates a serious problem with the system under testing, this behavior is
 considered a I<feature>.  If you must test for these conditions, you should use
 L<Try::Tiny>'s try/catch mechanism.  (Try::Tiny is the underlying exception
 handling system of Test::Fatal.)
+Note that this issue is only known to occur on perls before 5.14.
 
 Note that there is no TAP assert being performed.  In other words, no "ok" or
 "not ok" line is emitted.  It's up to you to use the rest of C<exception> in an
