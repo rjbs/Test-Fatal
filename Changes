@@ -1,6 +1,8 @@
 Revision history for {{$dist->name}}
 
 {{$NEXT}}
+        - now tolerant of false exceptions coming from a boolean-overloaded
+          object
 
 0.015     2018-03-10 17:06:11-05:00 America/New_York (TRIAL RELEASE)
         - add default descriptions to tests

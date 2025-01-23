@@ -71,9 +71,9 @@ SKIP: {
   use overload 'bool' => sub { 0 };
 }
 
-like(
+is(
   exception { exception { die(bless {} => 'FalseObject'); } },
-  qr{false exception},
-  "we throw a new exception if the exception is false",
+  undef,
+  "we do not throw a new exception if the exception is false but blessed",
 );
 

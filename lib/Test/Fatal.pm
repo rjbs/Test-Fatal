@@ -59,13 +59,15 @@ our @EXPORT_OK = qw(exception success dies_ok lives_ok);
 C<exception> takes a bare block of code and returns the exception thrown by
 that block.  If no exception was thrown, it returns undef.
 
-B<Achtung!>  If the block results in a I<false> exception, such as 0 or the
+B<Achtung!>  If the block results in an I<unblessed false> exception, such as 0 or the
 empty string, Test::Fatal itself will die.  Since either of these cases
 indicates a serious problem with the system under testing, this behavior is
-considered a I<feature>.  If you must test for these conditions, you should use
-L<Try::Tiny>'s try/catch mechanism.  (Try::Tiny is the underlying exception
-handling system of Test::Fatal.)
-Note that this issue is only known to occur on perls before 5.14.
+considered a I<feature>. Note that this issue is only known to occur on perls before 5.14.
+
+Exercise caution if you must test for these conditions: wrapping C<exception { ... }> in
+an C<ok()> block will not give you the result you need, so make sure you use C<is()> instead.
+You can also directly use L<Try::Tiny>'s try/catch mechanism, the underlying exception
+handling system of Test::Fatal.
 
 Note that there is no TAP assert being performed.  In other words, no "ok" or
 "not ok" line is emitted.  It's up to you to use the rest of C<exception> in an
@@ -159,7 +161,7 @@ sub exception (&) {
     $code->();
     return undef;
   } catch {
-    return $_ if $_;
+    return $_ if $_ or ref; # allow objects with a false boolean overload
 
     my $problem = defined $_ ? 'false' : 'undef';
     Carp::confess("$problem exception caught by Test::Fatal::exception");
