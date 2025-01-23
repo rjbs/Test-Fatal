@@ -51,17 +51,18 @@ try {
 
 {
   package BreakException;
-  sub DESTROY { eval { my $x = 'o no'; } }
+  sub DESTROY { eval { my $x = 'o no'; } }  # resets $@ to '' on older perls
 }
 
-if ($] < 5.013001) {
+SKIP: {
+  skip 'perl < 5.013001 required to test $@ being altered in DESTROY', 1 if $] >= 5.013001;
   like(
     exception { exception {
       my $blackguard = bless {}, 'BreakException';
       die "real exception";
     } },
     qr{false exception},
-    "we throw a new exception if the exception is false",
+    'DESTROY resets $@ to false; we throw a new exception if the exception is false',
   );
 }
 
