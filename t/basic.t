@@ -1,6 +1,6 @@
 use strict;
 use warnings;
-use Test::More tests => 7 + ($] < 5.013001 ? 1 : 0);
+use Test::More tests => 8;
 use Test::Fatal qw(exception success);
 use Try::Tiny 0.07;
 
