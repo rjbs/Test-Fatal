@@ -1,6 +1,8 @@
 Revision history for {{$dist->name}}
 
 {{$NEXT}}
+        - now tolerant of false exceptions coming from a boolean-overloaded
+          object
 
 0.017     2022-12-31 16:40:56-05:00 America/New_York
         - update packaging and metadata
