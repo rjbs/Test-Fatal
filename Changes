@@ -1,6 +1,8 @@
 Revision history for {{$dist->name}}
 
 {{$NEXT}}
+
+0.018     2025-11-06 12:47:58-05:00 America/Toronto
         - now requires perl v5.12.0
         - now tolerant of false exceptions coming from a boolean-overloaded
           object
