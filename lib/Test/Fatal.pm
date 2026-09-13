@@ -1,4 +1,4 @@
-use v5.12.0;
+use strict;
 use warnings;
 package Test::Fatal;
 # ABSTRACT: incredibly simple helpers for testing code with exceptions
